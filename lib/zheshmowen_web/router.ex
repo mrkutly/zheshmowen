@@ -5,8 +5,12 @@ defmodule ZheshmowenWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ZheshmowenWeb do
+  scope "/api" do
     pipe_through :api
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: ZheshmowenWeb.Schema
+
+    forward "/", Absinthe.Plug, schema: ZheshmowenWeb.Schema
   end
 
   # Enables LiveDashboard only for development

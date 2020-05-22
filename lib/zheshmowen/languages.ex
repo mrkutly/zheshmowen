@@ -6,7 +6,7 @@ defmodule Zheshmowen.Languages do
   import Ecto.Query, warn: false
   alias Zheshmowen.Repo
 
-  alias Zheshmowen.Languages.{Group, GroupsUser}
+  alias Zheshmowen.Languages.{Group, GroupsUser, Post}
 
   @doc """
   Returns the list of groups.
@@ -76,6 +76,23 @@ defmodule Zheshmowen.Languages do
   def add_user_to_group(attrs) do
     %GroupsUser{}
     |> GroupsUser.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Adds a post to a group
+
+  ## Examples
+
+      iex> add_post_to_group(%{group_id: 1, user_id: 1, body: "Bozho jayek!"})
+      {:ok, %Group{}}
+
+      iex> add_post_to_group(%{user_id: 1, body: "Bozho jayek!"})
+      {:error, %Ecto.Changeset{}}
+  """
+  def add_post_to_group(attrs) do
+    %Post{}
+    |> Post.changeset(attrs)
     |> Repo.insert()
   end
 end

@@ -44,17 +44,7 @@ defmodule Zheshmowen.Accounts do
   ## Example
 
       iex> get_user(1)
-      %Zheshmowen.Accounts.User{
-        __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
-        affiliation: nil,
-        email: "mark@test.com",
-        groups: #Ecto.Association.NotLoaded<association :groups is not loaded>,
-        id: 1,
-        inserted_at: ~N[2020-05-22 21:43:43],
-        name: "mark",
-        photo_url: nil,
-        updated_at: ~N[2020-05-22 21:43:43]
-      }
+      %Zheshmowen.Accounts.User{}
 
   """
   def get_user(id) do
@@ -67,17 +57,7 @@ defmodule Zheshmowen.Accounts do
   ## Example
 
       iex> get_user_by([email: "mark@test.com"])
-      %Zheshmowen.Accounts.User{
-        __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
-        affiliation: nil,
-        email: "mark@test.com",
-        groups: #Ecto.Association.NotLoaded<association :groups is not loaded>,
-        id: 1,
-        inserted_at: ~N[2020-05-22 21:43:43],
-        name: "mark",
-        photo_url: nil,
-        updated_at: ~N[2020-05-22 21:43:43]
-      }
+      %Zheshmowen.Accounts.User{}
 
   """
   def get_user_by(attrs) do
@@ -91,18 +71,7 @@ defmodule Zheshmowen.Accounts do
 
       iex> user = get_user(1)
       iex> update_user(user, %{affiliation: "Citizen Potawatomi Nation"})
-      {:ok,
-      %Zheshmowen.Accounts.User{
-        __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
-        affiliation: "Citizen Potawatomi Nation",
-        email: "mark@test.com",
-        groups: #Ecto.Association.NotLoaded<association :groups is not loaded>,
-        id: 1,
-        inserted_at: ~N[2020-05-22 21:43:43],
-        name: "mark",
-        photo_url: nil,
-        updated_at: ~N[2020-05-23 18:26:27]
-      }}
+      {:ok, %Zheshmowen.Accounts.User{}}
 
   """
   def update_user(%User{} = user, attrs) do

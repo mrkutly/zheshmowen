@@ -1,6 +1,6 @@
 defmodule ZheshmowenWeb.Schema do
   use Absinthe.Schema
-  import_types(ZheshmowenWeb.Schema.AccountsTypes)
+  import_types(ZheshmowenWeb.Schema.Types)
 
   alias ZheshmowenWeb.Resolvers
 
@@ -22,6 +22,16 @@ defmodule ZheshmowenWeb.Schema do
       arg(:email, :string)
       arg(:id, :id)
       resolve(&Resolvers.Accounts.user_where/3)
+    end
+  end
+
+  mutation do
+    @desc "Creates a user"
+    field :sign_up, :user do
+      arg(:name, non_null(:string))
+      arg(:email, non_null(:string))
+      arg(:affiliation, :string)
+      resolve(&Resolvers.Accounts.create_user/3)
     end
   end
 end

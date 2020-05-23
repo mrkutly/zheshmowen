@@ -55,31 +55,12 @@ defmodule Zheshmowen.Languages do
   end
 
   @doc """
-  Gets the list of groups that a user is in
+  Returns a list of GroupsUsers with the Group preloaded
 
   ## Example
 
       iex> get_user_groups(%User{id: 1})
-      [
-        %Zheshmowen.Languages.GroupsUser{
-          __meta__: #Ecto.Schema.Metadata<:loaded, "groups_users">,
-          group: %Zheshmowen.Languages.Group{
-            __meta__: #Ecto.Schema.Metadata<:loaded, "groups">,
-            id: 1,
-            inserted_at: ~N[2020-05-22 21:22:31],
-            name: "Bodéwadmimwen",
-            updated_at: ~N[2020-05-22 21:22:31],
-            users: #Ecto.Association.NotLoaded<association :users is not loaded>
-          },
-          group_id: 1,
-          id: 2,
-          inserted_at: ~N[2020-05-22 21:43:47],
-          is_admin: false,
-          updated_at: ~N[2020-05-22 21:43:47],
-          user: #Ecto.Association.NotLoaded<association :user is not loaded>,
-          user_id: 1
-        }
-      ]
+      [%Zheshmowen.Languages.GroupsUser{}, ...]
   """
   def get_user_groups(%User{id: id}) do
     from(gu in GroupsUser,
@@ -90,34 +71,12 @@ defmodule Zheshmowen.Languages do
   end
 
   @doc """
-  Gets the list of users that are in a group
+  Returns a list of GroupsUsers with the User preloaded
 
   ## Example
 
       iex> get_group_users(%Group{id: 1})
-      [
-        %Zheshmowen.Languages.GroupsUser{
-          __meta__: #Ecto.Schema.Metadata<:loaded, "groups_users">,
-          group: #Ecto.Association.NotLoaded<association :group is not loaded>,
-          group_id: 1,
-          id: 2,
-          inserted_at: ~N[2020-05-22 21:43:47],
-          is_admin: false,
-          updated_at: ~N[2020-05-22 21:43:47],
-          user: %Zheshmowen.Accounts.User{
-            __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
-            affiliation: nil,
-            email: "mark@test.com",
-            groups: #Ecto.Association.NotLoaded<association :groups is not loaded>,
-            id: 1,
-            inserted_at: ~N[2020-05-22 21:43:43],
-            name: "mark",
-            photo_url: nil,
-            updated_at: ~N[2020-05-22 21:43:43]
-          },
-          user_id: 1
-        }
-      ]
+      [%Zheshmowen.Languages.GroupsUser{}, ...]
   """
   def get_group_users(%Group{id: id}) do
     from(gu in GroupsUser,

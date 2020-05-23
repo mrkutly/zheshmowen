@@ -16,4 +16,8 @@ defmodule ZheshmowenWeb.Resolvers.Accounts do
     groups = Languages.get_user_groups(parent)
     {:ok, groups}
   end
+
+  def create_user(_parent, args, _resolution) do
+    Accounts.create_user(args)
+  end
 end

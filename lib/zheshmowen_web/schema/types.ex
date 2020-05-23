@@ -1,4 +1,4 @@
-defmodule ZheshmowenWeb.Schema.AccountsTypes do
+defmodule ZheshmowenWeb.Schema.Types do
   use Absinthe.Schema.Notation
   alias ZheshmowenWeb.Resolvers
 

@@ -1,4 +1,7 @@
 defmodule Zheshmowen.Languages.GroupsUser do
+  @moduledoc """
+  Represents an association between a Group and a User
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Zheshmowen.Languages.GroupsUser

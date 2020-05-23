@@ -7,6 +7,7 @@ defmodule Zheshmowen.Languages do
   alias Zheshmowen.Repo
 
   alias Zheshmowen.Languages.{Group, GroupsUser, Post}
+  alias Zheshmowen.Accounts.User
 
   @doc """
   Returns the list of groups.
@@ -42,15 +43,88 @@ defmodule Zheshmowen.Languages do
   @doc """
   Gets a group by their id
   """
-  def get_group(id) when is_integer(id) do
+  def get_group(id) do
     Repo.get!(Group, id)
   end
 
   @doc """
   Gets a group by their name
   """
-  def get_group_by(name) do
+  def get_group_by(%{name: name}) do
     Repo.get_by!(Group, name: name)
+  end
+
+  @doc """
+  Gets the list of groups that a user is in
+
+  ## Example
+
+      iex> get_user_groups(%User{id: 1})
+      [
+        %Zheshmowen.Languages.GroupsUser{
+          __meta__: #Ecto.Schema.Metadata<:loaded, "groups_users">,
+          group: %Zheshmowen.Languages.Group{
+            __meta__: #Ecto.Schema.Metadata<:loaded, "groups">,
+            id: 1,
+            inserted_at: ~N[2020-05-22 21:22:31],
+            name: "Bodéwadmimwen",
+            updated_at: ~N[2020-05-22 21:22:31],
+            users: #Ecto.Association.NotLoaded<association :users is not loaded>
+          },
+          group_id: 1,
+          id: 2,
+          inserted_at: ~N[2020-05-22 21:43:47],
+          is_admin: false,
+          updated_at: ~N[2020-05-22 21:43:47],
+          user: #Ecto.Association.NotLoaded<association :user is not loaded>,
+          user_id: 1
+        }
+      ]
+  """
+  def get_user_groups(%User{id: id}) do
+    from(gu in GroupsUser,
+      where: gu.user_id == ^id,
+      preload: [:group]
+    )
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets the list of users that are in a group
+
+  ## Example
+
+      iex> get_group_users(%Group{id: 1})
+      [
+        %Zheshmowen.Languages.GroupsUser{
+          __meta__: #Ecto.Schema.Metadata<:loaded, "groups_users">,
+          group: #Ecto.Association.NotLoaded<association :group is not loaded>,
+          group_id: 1,
+          id: 2,
+          inserted_at: ~N[2020-05-22 21:43:47],
+          is_admin: false,
+          updated_at: ~N[2020-05-22 21:43:47],
+          user: %Zheshmowen.Accounts.User{
+            __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
+            affiliation: nil,
+            email: "mark@test.com",
+            groups: #Ecto.Association.NotLoaded<association :groups is not loaded>,
+            id: 1,
+            inserted_at: ~N[2020-05-22 21:43:43],
+            name: "mark",
+            photo_url: nil,
+            updated_at: ~N[2020-05-22 21:43:43]
+          },
+          user_id: 1
+        }
+      ]
+  """
+  def get_group_users(%Group{id: id}) do
+    from(gu in GroupsUser,
+      where: gu.group_id == ^id,
+      preload: [:user]
+    )
+    |> Repo.all()
   end
 
   @doc """

@@ -5,7 +5,6 @@ defmodule Zheshmowen.Accounts do
 
   import Ecto.Query, warn: false
   alias Zheshmowen.Repo
-
   alias Zheshmowen.Accounts.User
 
   @doc """
@@ -40,21 +39,71 @@ defmodule Zheshmowen.Accounts do
   end
 
   @doc """
-  Gets a user by their email
-  """
-  def get_user_by({:email, email}) do
-    Repo.get_by!(User, email: email)
-  end
-
-  @doc """
   Gets a user by their id
+
+  ## Example
+
+      iex> get_user(1)
+      %Zheshmowen.Accounts.User{
+        __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
+        affiliation: nil,
+        email: "mark@test.com",
+        groups: #Ecto.Association.NotLoaded<association :groups is not loaded>,
+        id: 1,
+        inserted_at: ~N[2020-05-22 21:43:43],
+        name: "mark",
+        photo_url: nil,
+        updated_at: ~N[2020-05-22 21:43:43]
+      }
+
   """
   def get_user(id) do
     Repo.get!(User, id)
   end
 
   @doc """
+  Gets a user by their email
+
+  ## Example
+
+      iex> get_user_by([email: "mark@test.com"])
+      %Zheshmowen.Accounts.User{
+        __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
+        affiliation: nil,
+        email: "mark@test.com",
+        groups: #Ecto.Association.NotLoaded<association :groups is not loaded>,
+        id: 1,
+        inserted_at: ~N[2020-05-22 21:43:43],
+        name: "mark",
+        photo_url: nil,
+        updated_at: ~N[2020-05-22 21:43:43]
+      }
+
+  """
+  def get_user_by(attrs) do
+    Repo.get_by!(User, attrs)
+  end
+
+  @doc """
   Updates a user.
+
+  ## Example
+
+      iex> user = get_user(1)
+      iex> update_user(user, %{affiliation: "Citizen Potawatomi Nation"})
+      {:ok,
+      %Zheshmowen.Accounts.User{
+        __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
+        affiliation: "Citizen Potawatomi Nation",
+        email: "mark@test.com",
+        groups: #Ecto.Association.NotLoaded<association :groups is not loaded>,
+        id: 1,
+        inserted_at: ~N[2020-05-22 21:43:43],
+        name: "mark",
+        photo_url: nil,
+        updated_at: ~N[2020-05-23 18:26:27]
+      }}
+
   """
   def update_user(%User{} = user, attrs) do
     user

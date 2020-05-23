@@ -1,4 +1,7 @@
 defmodule Zheshmowen.Accounts.User do
+  @moduledoc """
+  Represents a User
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Zheshmowen.Accounts.User

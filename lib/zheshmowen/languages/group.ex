@@ -1,4 +1,7 @@
 defmodule Zheshmowen.Languages.Group do
+  @moduledoc """
+  Represents a Language Group
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Zheshmowen.Languages.{Group, GroupsUser}

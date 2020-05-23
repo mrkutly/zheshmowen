@@ -1,4 +1,7 @@
 defmodule Zheshmowen.Languages.Post do
+  @moduledoc """
+  Represents a Post on a Language Group page
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Zheshmowen.Languages.{Post, Group}

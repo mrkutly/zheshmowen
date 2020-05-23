@@ -12,7 +12,7 @@ defmodule Zheshmowen.Accounts.User do
     field :email, :string
     field :affiliation, :string
     field :photo_url, :string
-
+    has_many :user_groups, GroupsUser
     many_to_many :groups, Group, join_through: GroupsUser
 
     timestamps()

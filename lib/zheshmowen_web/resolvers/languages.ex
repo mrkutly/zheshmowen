@@ -1,23 +1,19 @@
 defmodule ZheshmowenWeb.Resolvers.Languages do
   alias Zheshmowen.Languages
 
-  def list_groups(_parent, _args, _resolution) do
-    groups = Languages.list_groups()
-    {:ok, groups}
+  def list_groups(_parent, _args, _info) do
+    {:ok, Languages.list_groups()}
   end
 
-  def group_where(_parent, %{id: id}, _resolution) do
-    group = Languages.get_group(id)
-    {:ok, group}
+  def group_where(_parent, %{id: id}, _info) do
+    {:ok, Languages.get_group(id)}
   end
 
-  def group_where(_parent, %{name: name}, _resolution) do
-    group = Languages.get_group_by(%{name: name})
-    {:ok, group}
+  def group_where(_parent, %{name: name}, _info) do
+    {:ok, Languages.get_group_by(%{name: name})}
   end
 
-  def get_group_users(parent, _args, _resolution) do
-    users = Languages.get_group_users(parent)
-    {:ok, users}
+  def create_group(_parent, args, _info) do
+    Languages.create_group(args)
   end
 end

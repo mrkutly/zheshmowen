@@ -3,6 +3,20 @@ defmodule ZheshmowenWeb.Schema do
   import_types(ZheshmowenWeb.Schema.Types)
 
   alias ZheshmowenWeb.Resolvers
+  alias Zheshmowen.{Accounts, Languages}
+
+  def context(ctx) do
+    loader =
+      Dataloader.new()
+      |> Dataloader.add_source(Languages, Languages.data())
+      |> Dataloader.add_source(Accounts, Accounts.data())
+
+    Map.put(ctx, :loader, loader)
+  end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
+  end
 
   query do
     @desc "Get a list of all groups"
@@ -32,6 +46,12 @@ defmodule ZheshmowenWeb.Schema do
       arg(:email, non_null(:string))
       arg(:affiliation, :string)
       resolve(&Resolvers.Accounts.create_user/3)
+    end
+
+    @desc "Creates a group"
+    field :create_group, :group do
+      arg(:name, non_null(:string))
+      resolve(&Resolvers.Languages.create_group/3)
     end
   end
 end

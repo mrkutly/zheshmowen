@@ -9,6 +9,12 @@ defmodule Zheshmowen.Languages do
   alias Zheshmowen.Languages.{Group, GroupsUser, Post}
   alias Zheshmowen.Accounts.User
 
+  def data() do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  def query(queryable, _params), do: queryable
+
   @doc """
   Returns the list of groups.
 

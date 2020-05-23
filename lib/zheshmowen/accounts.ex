@@ -7,6 +7,12 @@ defmodule Zheshmowen.Accounts do
   alias Zheshmowen.Repo
   alias Zheshmowen.Accounts.User
 
+  def data() do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  def query(queryable, _params), do: queryable
+
   @doc """
   Returns the list of users.
 

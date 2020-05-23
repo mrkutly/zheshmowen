@@ -1,6 +1,8 @@
 defmodule ZheshmowenWeb.Schema.Types do
   use Absinthe.Schema.Notation
   alias ZheshmowenWeb.Resolvers
+  alias Zheshmowen.{Languages, Accounts}
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   import_types(Absinthe.Type.Custom, only: [:naive_datetime])
 
@@ -26,9 +28,7 @@ defmodule ZheshmowenWeb.Schema.Types do
     field :affiliation, :string
     field :photo_url, :string
 
-    field :groups, list_of(:user_group) do
-      resolve(&Resolvers.Accounts.get_user_groups/3)
-    end
+    field :user_groups, list_of(:user_group), resolve: dataloader(Accounts)
   end
 
   object :group do
@@ -38,9 +38,7 @@ defmodule ZheshmowenWeb.Schema.Types do
     field :updated_at, :naive_datetime
     field :name, :string
 
-    field :users, list_of(:group_user) do
-      resolve(&Resolvers.Languages.get_group_users/3)
-    end
+    field :group_users, list_of(:group_user), resolve: dataloader(Accounts)
   end
 
   object :user_group do
@@ -48,8 +46,8 @@ defmodule ZheshmowenWeb.Schema.Types do
     field :id, :id
     field :inserted_at, :naive_datetime
     field :updated_at, :naive_datetime
-    field :group, :group
     field :is_admin, :boolean
+    field :group, :group, resolve: dataloader(Languages)
   end
 
   object :group_user do
@@ -57,7 +55,7 @@ defmodule ZheshmowenWeb.Schema.Types do
     field :id, :id
     field :inserted_at, :naive_datetime
     field :updated_at, :naive_datetime
-    field :user, :user
+    field :user, :user, resolve: dataloader(Accounts)
     field :is_admin, :boolean
   end
 end

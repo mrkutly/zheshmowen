@@ -35,6 +35,7 @@ defmodule Zheshmowen.MixProject do
     [
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
+      {:dataloader, "~> 1.0.0"},
       {:ecto_sql, "~> 3.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},

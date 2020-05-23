@@ -9,6 +9,7 @@ defmodule Zheshmowen.Languages.Group do
 
   schema "groups" do
     field :name, :string
+    has_many :group_users, GroupsUser
     many_to_many :users, User, join_through: GroupsUser
     timestamps()
   end

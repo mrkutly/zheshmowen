@@ -16,6 +16,12 @@ config :zheshmowen, ZheshmowenWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+#  Use this to set up cors for the production deployment
+# config :cors_plug,
+#   origin: ["http://localhost:8000"],
+#   max_age: 86400,
+#   methods: ["POST"]
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

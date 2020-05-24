@@ -36,6 +36,7 @@ defmodule Zheshmowen.MixProject do
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
       {:argon2_elixir, "~> 2.3"},
+      {:cors_plug, "~> 2.0"},
       {:dataloader, "~> 1.0.0"},
       {:ecto_sql, "~> 3.4"},
       {:gettext, "~> 0.11"},

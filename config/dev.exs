@@ -59,3 +59,8 @@ config :phoenix, :plug_init_mode, :runtime
 config :zheshmowen, Zheshmowen.Accounts.Guardian,
   issuer: "zheshmowen",
   secret_key: "xKHrdbqK8r6+Ax49bCCx1C1CiNfAWE/A09vJmBiCoyfwmAXSdQhUgyPK22fm8zu+"
+
+config :cors_plug,
+  origin: ["http://localhost:8000"],
+  max_age: 86400,
+  methods: ["POST"]

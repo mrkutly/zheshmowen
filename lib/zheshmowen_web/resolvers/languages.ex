@@ -18,7 +18,7 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
   end
 
   def join_group(_parent, %{group: %{id: group_id, is_admin: is_admin}}, %{
-        context: %{user_id: user_id}
+        context: %{current_user: %{id: user_id}}
       }) do
     Languages.add_user_to_group(%{user_id: user_id, group_id: group_id, is_admin: is_admin})
   end

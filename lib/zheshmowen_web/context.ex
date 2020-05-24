@@ -2,7 +2,7 @@ defmodule ZheshmowenWeb.Context do
   @behaviour Plug
 
   import Plug.Conn
-  alias Zheshmowen.{Accounts, Accounts.Guardian}
+  alias Zheshmowen.Accounts.Guardian
 
   def init(opts), do: opts
 
@@ -28,9 +28,8 @@ defmodule ZheshmowenWeb.Context do
   """
   def build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, %{"sub" => user_id}} <- authorize(token),
-         current_user <- Accounts.get_user(user_id) do
-      {:ok, %{current_user: current_user}}
+         {:ok, %{"sub" => user_id}} <- authorize(token) do
+      {:ok, %{current_user: user_id}}
     else
       _ -> {:ok, %{}}
     end

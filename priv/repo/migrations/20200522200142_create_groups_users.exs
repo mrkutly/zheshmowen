@@ -6,6 +6,8 @@ defmodule Zheshmowen.Repo.Migrations.CreateGroupsUsers do
       add :group_id, references(:groups, on_delete: :delete_all), null: false
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :is_admin, :boolean, default: false
+      add :is_banned, :boolean, default: false
+      add :is_pending, :boolean, default: true
 
       timestamps()
     end

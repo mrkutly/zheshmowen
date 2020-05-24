@@ -4,6 +4,7 @@ defmodule Zheshmowen.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias Argon2
   alias Zheshmowen.Repo
   alias Zheshmowen.Accounts.User
 
@@ -84,5 +85,37 @@ defmodule Zheshmowen.Accounts do
     user
     |> User.changeset(attrs)
     |> Repo.update()
+  end
+
+  @doc """
+  Authenticates a user
+
+  ## Example
+
+      iex> authenticate_user("mark@test.com", "the_real_password!")
+      {:ok, %User{}}
+
+      iex> authenticate_user("not_a_real_user", "the_real_password!")
+      {:error, :invalid_credentials}
+
+      iex> authenticate_user("mark@test.com", "the_wrong_password")
+      {:error, :invalid_credentials}
+
+  """
+  def authenticate_user(email, plain_text_password) do
+    query = from u in User, where: u.email == ^email
+
+    case Repo.one(query) do
+      nil ->
+        Argon2.no_user_verify()
+        {:error, :invalid_credentials}
+
+      user ->
+        if Argon2.verify_pass(plain_text_password, user.password_hash) do
+          {:ok, user}
+        else
+          {:error, :invalid_credentials}
+        end
+    end
   end
 end

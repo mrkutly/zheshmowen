@@ -3,8 +3,8 @@ defmodule ZheshmowenWeb.UserMutationsTest do
   alias Zheshmowen.Accounts
 
   @sign_up_mutation """
-  mutation signUp($name: String!, $email: String!) {
-    signUp(name: $name, email: $email) {
+  mutation signUp($name: String!, $email: String!, $password: String!) {
+    signUp(name: $name, email: $email, password: $password) {
       name
       email
       id
@@ -15,7 +15,11 @@ defmodule ZheshmowenWeb.UserMutationsTest do
   test "mutation: sign_up", %{conn: conn} do
     result =
       conn
-      |> post_query(@sign_up_mutation, %{"name" => "brub", "email" => "brub@test.com"})
+      |> post_query(@sign_up_mutation, %{
+        "name" => "brub",
+        "email" => "brub@test.com",
+        "password" => "sick_password!"
+      })
       |> json_response(200)
       |> atomize_response()
 
@@ -33,20 +37,22 @@ defmodule ZheshmowenWeb.UserMutationsTest do
     %{
       errors: [
         %{
-          locations: [%{column: 10, line: 2}],
           message: ~s(In argument "name": Expected type "String!", found null.)
         },
         %{
-          locations: [%{column: 23, line: 2}],
           message: ~s(In argument "email": Expected type "String!", found null.)
         },
         %{
-          locations: [%{column: 17, line: 1}],
+          message: ~s(In argument "password": Expected type "String!", found null.)
+        },
+        %{
           message: ~s(Variable "name": Expected non-null, found null.)
         },
         %{
-          locations: [%{column: 33, line: 1}],
           message: ~s(Variable "email": Expected non-null, found null.)
+        },
+        %{
+          message: ~s(Variable "password": Expected non-null, found null.)
         }
       ]
     } = result

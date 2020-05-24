@@ -7,6 +7,7 @@ defmodule Zheshmowen.Repo.Migrations.CreateUsers do
       add :email, :string, null: false
       add :affiliation, :string
       add :photo_url, :string
+      add :password_hash, :string
 
       timestamps()
     end

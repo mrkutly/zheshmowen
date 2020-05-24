@@ -57,4 +57,13 @@ defmodule ZheshmowenWeb.Schema.Types do
     field :user, :user, resolve: dataloader(Accounts)
     field :is_admin, :boolean
   end
+
+  object :login_response do
+    field :token, :string
+  end
+
+  input_object :group_input do
+    field :id, :id
+    field :name, :string
+  end
 end

@@ -55,3 +55,7 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :zheshmowen, Zheshmowen.Accounts.Guardian,
+  issuer: "zheshmowen",
+  secret_key: "xKHrdbqK8r6+Ax49bCCx1C1CiNfAWE/A09vJmBiCoyfwmAXSdQhUgyPK22fm8zu+"

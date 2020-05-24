@@ -16,4 +16,8 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
   def create_group(_parent, args, _info) do
     Languages.create_group(args)
   end
+
+  # def join_group(_parent, args, %{context: %{user_id: user_id}) do
+
+  # end
 end

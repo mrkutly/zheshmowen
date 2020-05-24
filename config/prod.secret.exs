@@ -39,3 +39,12 @@ config :zheshmowen, ZheshmowenWeb.Endpoint,
 #
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.
+
+config :zheshmowen, Zheshmowen.Accounts.Guardian,
+  issuer: "zheshmowen",
+  secret_key:
+    System.get_env("GUARDIAN_SECRET") ||
+      raise("""
+      environment variable GUARDIAN_SECRET is missing.
+      You can generate one by calling: mix guardian.gen.secret
+      """)

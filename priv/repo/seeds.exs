@@ -4,6 +4,7 @@ alias Zheshmowen.{Languages, Accounts}
   Accounts.create_user(%{
     name: "mark",
     email: "mark@test.com",
+    password: "insecure_password1",
     photo_url: "https://some-fake-image.com",
     affiliation: "Citizen Potawatomi Nation"
   })

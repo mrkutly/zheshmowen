@@ -3,6 +3,7 @@ defmodule ZheshmowenWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug ZheshmowenWeb.Context
   end
 
   scope "/api" do

@@ -44,6 +44,7 @@ defmodule ZheshmowenWeb.Schema do
     field :sign_up, :user do
       arg(:name, non_null(:string))
       arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
       arg(:affiliation, :string)
       resolve(&Resolvers.Accounts.create_user/3)
     end
@@ -53,5 +54,18 @@ defmodule ZheshmowenWeb.Schema do
       arg(:name, non_null(:string))
       resolve(&Resolvers.Languages.create_group/3)
     end
+
+    @desc "Logs a user in"
+    field :login, :login_response do
+      arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
+      resolve(&Resolvers.Accounts.login/3)
+    end
+
+    # @desc "Adds the current user to a group"
+    # field :join_group, :user_group do
+    #   arg(:group, non_null(:group_input))
+    #   resolve(&Resolvers.Languages.join_group/3)
+    # end
   end
 end

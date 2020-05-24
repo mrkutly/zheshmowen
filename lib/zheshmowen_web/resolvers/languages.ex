@@ -26,4 +26,28 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
   def join_group(_parent, _args, %{context: %{}}) do
     {:error, "You must be logged in to do that."}
   end
+
+  def add_post(_parent, %{group_id: group_id, body: body}, %{
+        context: %{current_user: %{id: user_id}}
+      }) do
+    Languages.create_post(%{group_id: group_id, user_id: user_id, body: body})
+  end
+
+  def add_post(_parent, _args, %{context: %{}}) do
+    {:error, "You must be logged in to do that."}
+  end
+
+  def add_comment(_parent, %{post_id: post_id, body: body}, %{
+        context: %{current_user: %{id: user_id}}
+      }) do
+    Languages.create_comment(%{post_id: post_id, user_id: user_id, body: body})
+  end
+
+  def add_comment(_parent, _args, %{context: %{}}) do
+    {:error, "You must be logged in to do that."}
+  end
+
+  def get_posts(_parent, %{group_id: group_id}, _info) do
+    {:ok, Languages.list_posts(%{group_id: group_id})}
+  end
 end

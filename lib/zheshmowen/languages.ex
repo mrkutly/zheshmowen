@@ -6,7 +6,7 @@ defmodule Zheshmowen.Languages do
   import Ecto.Query, warn: false
   alias Zheshmowen.Repo
 
-  alias Zheshmowen.Languages.{Group, GroupsUser, Post}
+  alias Zheshmowen.Languages.{Group, GroupsUser, Post, Comment}
   alias Zheshmowen.Accounts.User
 
   def data() do
@@ -123,15 +123,48 @@ defmodule Zheshmowen.Languages do
 
   ## Examples
 
-      iex> add_post_to_group(%{group_id: 1, user_id: 1, body: "Bozho jayek!"})
-      {:ok, %Group{}}
+      iex> create_post(%{group_id: 1, user_id: 1, body: "Bozho jayek!"})
+      {:ok, %Post{}}
 
-      iex> add_post_to_group(%{user_id: 1, body: "Bozho jayek!"})
+      iex> create_post(%{user_id: 1, body: "Bozho jayek!"})
       {:error, %Ecto.Changeset{}}
   """
-  def add_post_to_group(attrs) do
+  def create_post(attrs) do
     %Post{}
     |> Post.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Adds a comment to a post
+
+  ## Examples
+
+      iex> create_comment(%{post_id: 1, user_id: 1, body: "Bozho jayek!"})
+      {:ok, %Comment{}}
+
+      iex> create_comment(%{user_id: 1, body: "Bozho jayek!"})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_comment(attrs) do
+    %Comment{}
+    |> Comment.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Returns a list of Posts for a group
+
+  ## Example
+
+      iex> list_posts(%User{id: 1})
+      [%Zheshmowen.Languages.Post{}, ...]
+  """
+  def list_posts(%{group_id: id}) do
+    from(p in Post,
+      where: p.group_id == ^id,
+      select: p
+    )
+    |> Repo.all()
   end
 end

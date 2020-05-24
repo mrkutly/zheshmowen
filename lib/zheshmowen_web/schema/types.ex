@@ -5,20 +5,7 @@ defmodule ZheshmowenWeb.Schema.Types do
 
   import_types(Absinthe.Type.Custom, only: [:naive_datetime])
 
-  interface :node do
-    field :id, :id
-    field :inserted_at, :naive_datetime
-    field :updated_at, :naive_datetime
-
-    resolve_type(fn
-      %{email: _, name: _}, _ -> :user
-      %{name: _}, _ -> :group
-      _, _ -> nil
-    end)
-  end
-
   object :user do
-    interface(:node)
     field :id, :id
     field :inserted_at, :naive_datetime
     field :updated_at, :naive_datetime
@@ -31,7 +18,6 @@ defmodule ZheshmowenWeb.Schema.Types do
   end
 
   object :group do
-    interface(:node)
     field :id, :id
     field :inserted_at, :naive_datetime
     field :updated_at, :naive_datetime
@@ -41,7 +27,6 @@ defmodule ZheshmowenWeb.Schema.Types do
   end
 
   object :user_group do
-    interface(:node)
     field :id, :id
     field :inserted_at, :naive_datetime
     field :updated_at, :naive_datetime
@@ -50,7 +35,6 @@ defmodule ZheshmowenWeb.Schema.Types do
   end
 
   object :group_user do
-    interface(:node)
     field :id, :id
     field :inserted_at, :naive_datetime
     field :updated_at, :naive_datetime
@@ -65,5 +49,26 @@ defmodule ZheshmowenWeb.Schema.Types do
   input_object :join_group_input do
     field :id, non_null(:id)
     field :is_admin, :boolean
+  end
+
+  object :post do
+    field :id, :id
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
+    field :body, :string
+    field :num_likes, :integer
+    field :comments, list_of(:comment), resolve: dataloader(Languages)
+    field :user, :user, resolve: dataloader(Accounts)
+    field :group, :group, resolve: dataloader(Languages)
+  end
+
+  object :comment do
+    field :id, :id
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
+    field :body, :string
+    field :num_likes, :integer
+    field :user, :user, resolve: dataloader(Accounts)
+    field :post, :post, resolve: dataloader(Languages)
   end
 end

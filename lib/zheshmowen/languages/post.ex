@@ -4,14 +4,15 @@ defmodule Zheshmowen.Languages.Post do
   """
   use Ecto.Schema
   import Ecto.Changeset
-  alias Zheshmowen.Languages.{Post, Group}
+  alias Zheshmowen.Languages.{Comment, Group, Post}
   alias Zheshmowen.Accounts.User
 
   schema "posts" do
     field :body, :string
-    field :num_likes, :integer
+    field :num_likes, :integer, default: 0
     belongs_to(:group, Group)
     belongs_to(:user, User)
+    has_many(:comments, Comment)
     timestamps()
   end
 

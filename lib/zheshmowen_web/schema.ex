@@ -37,6 +37,12 @@ defmodule ZheshmowenWeb.Schema do
       arg(:id, :id)
       resolve(&Resolvers.Accounts.user_where/3)
     end
+
+    @desc "Gets posts for a given group page"
+    field :posts, list_of(:post) do
+      arg(:group_id, non_null(:id))
+      resolve(&Resolvers.Languages.get_posts/3)
+    end
   end
 
   mutation do
@@ -66,6 +72,20 @@ defmodule ZheshmowenWeb.Schema do
     field :join_group, :user_group do
       arg(:group, non_null(:join_group_input))
       resolve(&Resolvers.Languages.join_group/3)
+    end
+
+    @desc "Adds a post to a group page"
+    field :add_post, :post do
+      arg(:group_id, non_null(:id))
+      arg(:body, non_null(:string))
+      resolve(&Resolvers.Languages.add_post/3)
+    end
+
+    @desc "Adds a comment to a post"
+    field :add_comment, :comment do
+      arg(:post_id, non_null(:id))
+      arg(:body, non_null(:string))
+      resolve(&Resolvers.Languages.add_comment/3)
     end
   end
 end

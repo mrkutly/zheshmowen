@@ -1,9 +1,8 @@
 defmodule ZheshmowenWeb.Resolvers.Accounts do
   alias Zheshmowen.Accounts
-  alias Zheshmowen.Languages
 
   def user_where(_parent, %{email: email}, _info) do
-    {:ok, Accounts.get_user(email)}
+    {:ok, Accounts.get_user_by(%{email: email})}
   end
 
   def user_where(_parent, %{id: id}, _info) do

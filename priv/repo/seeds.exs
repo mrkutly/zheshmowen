@@ -1,11 +1,13 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Zheshmowen.Repo.insert!(%Zheshmowen.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+alias Zheshmowen.{Languages, Accounts}
+
+{:ok, user} =
+  Accounts.create_user(%{
+    name: "mark",
+    email: "mark@test.com",
+    photo_url: "https://some-fake-image.com",
+    affiliation: "Citizen Potawatomi Nation"
+  })
+
+{:ok, group} = Languages.create_group(%{name: "Bodéwadmimwen"})
+
+Languages.add_user_to_group(%{user_id: user.id, group_id: group.id})

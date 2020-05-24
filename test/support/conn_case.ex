@@ -23,11 +23,27 @@ defmodule ZheshmowenWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import ZheshmowenWeb.ConnCase
+      # import Atomizer
 
       alias ZheshmowenWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
       @endpoint ZheshmowenWeb.Endpoint
+
+      def atomize_response(resp), do: Atomizer.atomize(resp)
+
+      def post_query(conn, query) do
+        post(conn, "/api", %{"query" => query})
+      end
+
+      def post_query(conn, query, variables) do
+        args = %{
+          "query" => query,
+          "variables" => variables
+        }
+
+        post(conn, "/api", args)
+      end
     end
   end
 

@@ -1,6 +1,5 @@
 defmodule ZheshmowenWeb.Schema.Types do
   use Absinthe.Schema.Notation
-  alias ZheshmowenWeb.Resolvers
   alias Zheshmowen.{Languages, Accounts}
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 

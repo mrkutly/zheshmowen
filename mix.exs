@@ -20,7 +20,7 @@ defmodule Zheshmowen.MixProject do
   def application do
     [
       mod: {Zheshmowen.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:ueberauth, :ueberauth_auth0, :logger, :runtime_tools]
     ]
   end
 
@@ -35,12 +35,10 @@ defmodule Zheshmowen.MixProject do
     [
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
-      {:argon2_elixir, "~> 2.3"},
       {:cors_plug, "~> 2.0"},
       {:dataloader, "~> 1.0.0"},
       {:ecto_sql, "~> 3.4"},
       {:gettext, "~> 0.11"},
-      {:guardian, "~> 2.1"},
       {:jason, "~> 1.0"},
       {:phoenix, "~> 1.5.1"},
       {:phoenix_ecto, "~> 4.1"},
@@ -49,7 +47,9 @@ defmodule Zheshmowen.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:pundit, "~> 1.0"},
       {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"}
+      {:telemetry_poller, "~> 0.4"},
+      {:ueberauth, "~> 0.6"},
+      {:ueberauth_auth0, "~> 0.3"}
     ]
   end
 

@@ -1,9 +1,26 @@
 defmodule ZheshmowenWeb.Router do
   use ZheshmowenWeb, :router
+  alias ZheshmowenWeb.AuthController
+
+  pipeline :auth do
+    plug(:accepts, ["json"])
+    plug(:fetch_session)
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
+  end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug(:fetch_session)
     plug ZheshmowenWeb.Context
+  end
+
+  scope "/auth" do
+    pipe_through :auth
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+    get "/logout", AuthController, :logout
   end
 
   scope "/api" do

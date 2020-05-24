@@ -24,7 +24,7 @@ defmodule ZheshmowenWeb.Context do
   end
 
   @doc """
-  Return the current user context based on the session cookie
+  Return the current user context based on the authorization header
   """
   def build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),

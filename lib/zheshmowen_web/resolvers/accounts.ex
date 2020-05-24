@@ -10,7 +10,10 @@ defmodule ZheshmowenWeb.Resolvers.Accounts do
   end
 
   def create_user(_parent, args, _info) do
-    Accounts.create_user(args)
+    with {:ok, user} <- Accounts.create_user(args),
+         {:ok, jwt, _} <- Guardian.encode_and_sign(user) do
+      {:ok, %{token: jwt}}
+    end
   end
 
   def login(_parent, %{email: email, password: password}, _info) do

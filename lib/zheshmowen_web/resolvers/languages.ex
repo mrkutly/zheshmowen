@@ -17,7 +17,13 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
     Languages.create_group(args)
   end
 
-  # def join_group(_parent, args, %{context: %{user_id: user_id}) do
+  def join_group(_parent, %{group: %{id: group_id, is_admin: is_admin}}, %{
+        context: %{user_id: user_id}
+      }) do
+    Languages.add_user_to_group(%{user_id: user_id, group_id: group_id, is_admin: is_admin})
+  end
 
-  # end
+  def join_group(_parent, _args, %{context: %{}}) do
+    {:error, "You must be logged in to do that."}
+  end
 end

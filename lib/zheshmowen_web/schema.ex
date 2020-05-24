@@ -41,7 +41,7 @@ defmodule ZheshmowenWeb.Schema do
 
   mutation do
     @desc "Creates a user"
-    field :sign_up, :user do
+    field :sign_up, :login_response do
       arg(:name, non_null(:string))
       arg(:email, non_null(:string))
       arg(:password, non_null(:string))
@@ -62,10 +62,10 @@ defmodule ZheshmowenWeb.Schema do
       resolve(&Resolvers.Accounts.login/3)
     end
 
-    # @desc "Adds the current user to a group"
-    # field :join_group, :user_group do
-    #   arg(:group, non_null(:group_input))
-    #   resolve(&Resolvers.Languages.join_group/3)
-    # end
+    @desc "Adds the current user to a group"
+    field :join_group, :user_group do
+      arg(:group, non_null(:join_group_input))
+      resolve(&Resolvers.Languages.join_group/3)
+    end
   end
 end

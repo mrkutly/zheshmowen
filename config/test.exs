@@ -20,3 +20,7 @@ config :zheshmowen, ZheshmowenWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :zheshmowen, Zheshmowen.Accounts.Guardian,
+  issuer: "zheshmowen",
+  secret_key: "znAruwLaceRuKSUJMtrq/3WD+F105+gwf2PimLJiJ8Z1WrqznKgxrGvrZPS7fLuW"

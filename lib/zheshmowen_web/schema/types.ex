@@ -62,8 +62,8 @@ defmodule ZheshmowenWeb.Schema.Types do
     field :token, :string
   end
 
-  input_object :group_input do
-    field :id, :id
-    field :name, :string
+  input_object :join_group_input do
+    field :id, non_null(:id)
+    field :is_admin, :boolean
   end
 end

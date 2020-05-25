@@ -47,7 +47,7 @@ defmodule Zheshmowen.Accounts do
 
   def find_or_create_user(%Auth{info: %{email: email, name: name, image: photo_url}}) do
     case get_user_by(%{email: email}) do
-      nil -> {:ok, create_user(%{email: email, name: name, photo_url: photo_url})}
+      nil -> create_user(%{email: email, name: name, photo_url: photo_url})
       user -> {:ok, user}
     end
   end

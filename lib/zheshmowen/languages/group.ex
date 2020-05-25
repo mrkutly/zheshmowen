@@ -9,6 +9,7 @@ defmodule Zheshmowen.Languages.Group do
 
   schema "groups" do
     field :name, :string
+    field :slug, :string
     has_many :group_users, GroupsUser
     many_to_many :users, User, join_through: GroupsUser
     has_many :posts, Post
@@ -17,9 +18,21 @@ defmodule Zheshmowen.Languages.Group do
 
   @doc false
   def changeset(%Group{} = group, attrs) do
+    attrs = create_slug(attrs)
+
     group
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :slug])
+    |> validate_required([:name, :slug])
     |> unique_constraint(:name)
+    |> unique_constraint(:slug)
+  end
+
+  def create_slug(%{name: name}) do
+    slug =
+      name
+      |> String.downcase()
+      |> String.replace(~r/\s/i, "-")
+
+    %{name: name, slug: slug}
   end
 end

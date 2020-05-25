@@ -32,6 +32,7 @@ defmodule ZheshmowenWeb.Schema do
     @desc "Get a single group"
     field :group_where, :group do
       arg(:name, :string)
+      arg(:slug, :string)
       arg(:id, :id)
       resolve(&Resolvers.Languages.group_where/3)
     end

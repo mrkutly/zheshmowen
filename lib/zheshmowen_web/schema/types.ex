@@ -22,8 +22,10 @@ defmodule ZheshmowenWeb.Schema.Types do
     field :inserted_at, :naive_datetime
     field :updated_at, :naive_datetime
     field :name, :string
+    field :slug, :string
 
     field :group_users, list_of(:group_user), resolve: dataloader(Accounts)
+    field :posts, list_of(:post), resolve: dataloader(Languages)
   end
 
   object :user_group do

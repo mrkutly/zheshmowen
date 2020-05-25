@@ -61,6 +61,13 @@ defmodule Zheshmowen.Languages do
   end
 
   @doc """
+  Gets a group by their slug
+  """
+  def get_group_by(%{slug: slug}) do
+    Repo.get_by!(Group, slug: slug)
+  end
+
+  @doc """
   Returns a list of GroupsUsers with the Group preloaded
 
   ## Example

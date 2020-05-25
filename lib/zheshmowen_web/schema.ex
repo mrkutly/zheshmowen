@@ -36,6 +36,12 @@ defmodule ZheshmowenWeb.Schema do
       resolve(&Resolvers.Languages.group_where/3)
     end
 
+    @desc "Get multiple groups"
+    field :groups_where, list_of(:group) do
+      arg(:name, :string)
+      resolve(&Resolvers.Languages.groups_where/3)
+    end
+
     @desc "Gets posts for a given group page"
     field :posts, list_of(:post) do
       arg(:group_id, non_null(:id))

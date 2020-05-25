@@ -93,6 +93,25 @@ defmodule Zheshmowen.Languages do
   end
 
   @doc """
+  Returns a list of Groups where the name matches an input
+
+  ## Example
+
+      iex> get_groups_where_like(%{name: "Bodé"})
+      [%Zheshmowen.Languages.Group{name: "Bodéwadmimwen}, ...]
+  """
+  def get_groups_where_like(%{name: name}) do
+    sanitized = Repo.like_sanitize(name)
+    name_matcher = "#{sanitized}%"
+
+    from(g in Group,
+      where: ilike(g.name, ^name_matcher),
+      select: g
+    )
+    |> Repo.all()
+  end
+
+  @doc """
   Updates a group.
   """
   def update_group(%Group{} = group, attrs) do

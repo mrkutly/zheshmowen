@@ -13,6 +13,10 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
     {:ok, Languages.get_group_by(%{name: name})}
   end
 
+  def groups_where(_parent, %{name: name}, _info) do
+    {:ok, Languages.get_groups_where_like(%{name: name})}
+  end
+
   def create_group(_parent, args, _info) do
     Languages.create_group(args)
   end

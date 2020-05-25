@@ -16,7 +16,6 @@ defmodule ZheshmowenWeb.AuthController do
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    # if everything is chill
     case Accounts.find_or_create_user(auth) do
       {:ok, user} ->
         conn

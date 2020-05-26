@@ -23,7 +23,6 @@ defmodule ZheshmowenWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import ZheshmowenWeb.ConnCase
-      # import Atomizer
 
       alias ZheshmowenWeb.Router.Helpers, as: Routes
 
@@ -43,6 +42,11 @@ defmodule ZheshmowenWeb.ConnCase do
         }
 
         post(conn, "/api", args)
+      end
+
+      def session_conn() do
+        build_conn()
+        |> Plug.Test.init_test_session(%{})
       end
     end
   end

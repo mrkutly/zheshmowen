@@ -4,7 +4,7 @@ defmodule Zheshmowen.Accounts do
   """
 
   import Ecto.Query, warn: false
-  alias Argon2
+  alias Ueberauth.Auth
   alias Zheshmowen.Repo
   alias Zheshmowen.Accounts.User
 
@@ -45,6 +45,13 @@ defmodule Zheshmowen.Accounts do
     |> Repo.insert()
   end
 
+  def find_or_create_user(%Auth{info: %{email: email, name: name, image: photo_url}}) do
+    case get_user_by(%{email: email}) do
+      nil -> create_user(%{email: email, name: name, photo_url: photo_url})
+      user -> {:ok, user}
+    end
+  end
+
   @doc """
   Gets a user by their id
 
@@ -68,7 +75,7 @@ defmodule Zheshmowen.Accounts do
 
   """
   def get_user_by(attrs) do
-    Repo.get_by!(User, attrs)
+    Repo.get_by(User, attrs)
   end
 
   @doc """
@@ -85,37 +92,5 @@ defmodule Zheshmowen.Accounts do
     user
     |> User.changeset(attrs)
     |> Repo.update()
-  end
-
-  @doc """
-  Authenticates a user
-
-  ## Example
-
-      iex> authenticate_user("mark@test.com", "the_real_password!")
-      {:ok, %User{}}
-
-      iex> authenticate_user("not_a_real_user", "the_real_password!")
-      {:error, :invalid_credentials}
-
-      iex> authenticate_user("mark@test.com", "the_wrong_password")
-      {:error, :invalid_credentials}
-
-  """
-  def authenticate_user(email, plain_text_password) do
-    query = from u in User, where: u.email == ^email
-
-    case Repo.one(query) do
-      nil ->
-        Argon2.no_user_verify()
-        {:error, :invalid_credentials}
-
-      user ->
-        if Argon2.verify_pass(plain_text_password, user.password_hash) do
-          {:ok, user}
-        else
-          {:error, :invalid_credentials}
-        end
-    end
   end
 end

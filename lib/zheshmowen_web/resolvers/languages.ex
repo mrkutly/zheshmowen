@@ -9,8 +9,12 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
     {:ok, Languages.get_group(id)}
   end
 
-  def group_where(_parent, %{name: name}, _info) do
-    {:ok, Languages.get_group_by(%{name: name})}
+  def group_where(_parent, attrs, _info) do
+    {:ok, Languages.get_group_by(attrs)}
+  end
+
+  def groups_where(_parent, %{name: name}, _info) do
+    {:ok, Languages.get_groups_where_like(%{name: name})}
   end
 
   def create_group(_parent, args, _info) do

@@ -61,6 +61,13 @@ defmodule Zheshmowen.Languages do
   end
 
   @doc """
+  Gets a group by their slug
+  """
+  def get_group_by(%{slug: slug}) do
+    Repo.get_by!(Group, slug: slug)
+  end
+
+  @doc """
   Returns a list of GroupsUsers with the Group preloaded
 
   ## Example
@@ -88,6 +95,25 @@ defmodule Zheshmowen.Languages do
     from(gu in GroupsUser,
       where: gu.group_id == ^id,
       preload: [:user]
+    )
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns a list of Groups where the name matches an input
+
+  ## Example
+
+      iex> get_groups_where_like(%{name: "Bodé"})
+      [%Zheshmowen.Languages.Group{name: "Bodéwadmimwen}, ...]
+  """
+  def get_groups_where_like(%{name: name}) do
+    sanitized = Repo.like_sanitize(name)
+    name_matcher = "#{sanitized}%"
+
+    from(g in Group,
+      where: ilike(g.name, ^name_matcher),
+      select: g
     )
     |> Repo.all()
   end

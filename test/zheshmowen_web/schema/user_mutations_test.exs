@@ -1,61 +1,6 @@
 defmodule ZheshmowenWeb.UserMutationsTest do
   use ZheshmowenWeb.ConnCase
-  alias Zheshmowen.{Accounts, Accounts.Guardian, Languages, Languages.Group}
-
-  @sign_up_mutation """
-  mutation signUp($name: String!, $email: String!, $password: String!) {
-    signUp(name: $name, email: $email, password: $password) {
-      token
-    }
-  }
-  """
-
-  test "mutation: sign_up", %{conn: conn} do
-    result =
-      conn
-      |> post_query(@sign_up_mutation, %{
-        "name" => "brub",
-        "email" => "brub@test.com",
-        "password" => "sick_password!"
-      })
-      |> json_response(200)
-      |> atomize_response()
-
-    %{data: %{signUp: %{token: token}}} = result
-    {:ok, %{"sub" => id}} = Guardian.decode_and_verify(token)
-    %{email: "brub@test.com"} = Accounts.get_user(id)
-  end
-
-  test "mutation: sign_up with bad arguments", %{conn: conn} do
-    result =
-      conn
-      |> post_query(@sign_up_mutation, %{})
-      |> json_response(200)
-      |> atomize_response()
-
-    %{
-      errors: [
-        %{
-          message: ~s(In argument "name": Expected type "String!", found null.)
-        },
-        %{
-          message: ~s(In argument "email": Expected type "String!", found null.)
-        },
-        %{
-          message: ~s(In argument "password": Expected type "String!", found null.)
-        },
-        %{
-          message: ~s(Variable "name": Expected non-null, found null.)
-        },
-        %{
-          message: ~s(Variable "email": Expected non-null, found null.)
-        },
-        %{
-          message: ~s(Variable "password": Expected non-null, found null.)
-        }
-      ]
-    } = result
-  end
+  alias Zheshmowen.{Accounts, Languages, Languages.Group}
 
   @join_group_mutation """
   mutation JoinGroup($id: ID, $is_admin: Boolean) {
@@ -69,7 +14,7 @@ defmodule ZheshmowenWeb.UserMutationsTest do
   }
   """
 
-  test "mutation: join_group", %{conn: conn} do
+  test "mutation: join_group", _params do
     {:ok, user} =
       Accounts.create_user(%{
         email: "jenkins@test.com",
@@ -77,11 +22,9 @@ defmodule ZheshmowenWeb.UserMutationsTest do
         password: "terrible_password1"
       })
 
-    {:ok, token, _} = Guardian.encode_and_sign(user)
-
     result =
-      conn
-      |> put_req_header("authorization", "Bearer #{token}")
+      session_conn()
+      |> put_session(:current_user, user.id)
       |> post_query(@join_group_mutation, %{
         "id" => 1,
         "is_admin" => false

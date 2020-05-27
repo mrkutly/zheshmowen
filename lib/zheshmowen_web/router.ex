@@ -23,10 +23,10 @@ defmodule ZheshmowenWeb.Router do
     get "/logout", AuthController, :logout
   end
 
-  scope "/api" do
+  scope "/graphql" do
     pipe_through :api
 
-    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: ZheshmowenWeb.Schema
+    forward "/playground", Absinthe.Plug.GraphiQL, schema: ZheshmowenWeb.Schema
 
     forward "/", Absinthe.Plug, schema: ZheshmowenWeb.Schema
   end

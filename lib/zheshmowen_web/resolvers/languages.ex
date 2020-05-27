@@ -54,4 +54,8 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
   def get_posts(_parent, %{group_id: group_id}, _info) do
     {:ok, Languages.list_posts(%{group_id: group_id})}
   end
+
+  def get_current_user_status(%{id: group_id}, _args, %{context: %{current_user: user_id}}) do
+    {:ok, Languages.get_user_status(user_id, group_id)}
+  end
 end

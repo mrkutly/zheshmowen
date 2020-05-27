@@ -22,9 +22,9 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
   end
 
   def join_group(_parent, %{group: %{id: group_id, is_admin: is_admin}}, %{
-        context: %{current_user: user_id}
+        context: %{current_user: user}
       }) do
-    Languages.add_user_to_group(%{user_id: user_id, group_id: group_id, is_admin: is_admin})
+    Languages.add_user_to_group(%{user_id: user.id, group_id: group_id, is_admin: is_admin})
   end
 
   def join_group(_parent, _args, %{context: %{}}) do
@@ -32,9 +32,9 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
   end
 
   def add_post(_parent, %{group_id: group_id, body: body}, %{
-        context: %{current_user: user_id}
+        context: %{current_user: user}
       }) do
-    Languages.create_post(%{group_id: group_id, user_id: user_id, body: body})
+    Languages.create_post(%{group_id: group_id, user_id: user.id, body: body})
   end
 
   def add_post(_parent, _args, %{context: %{}}) do
@@ -42,9 +42,9 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
   end
 
   def add_comment(_parent, %{post_id: post_id, body: body}, %{
-        context: %{current_user: user_id}
+        context: %{current_user: user}
       }) do
-    Languages.create_comment(%{post_id: post_id, user_id: user_id, body: body})
+    Languages.create_comment(%{post_id: post_id, user_id: user.id, body: body})
   end
 
   def add_comment(_parent, _args, %{context: %{}}) do
@@ -55,7 +55,11 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
     {:ok, Languages.list_posts(%{group_id: group_id})}
   end
 
-  def get_current_user_status(%{id: group_id}, _args, %{context: %{current_user: user_id}}) do
-    {:ok, Languages.get_user_status(user_id, group_id)}
+  def get_current_user_status(%{id: group_id}, _args, %{context: %{current_user: user}}) do
+    {:ok, Languages.get_user_status(user, group_id)}
+  end
+
+  def get_current_user_status(_parent, _args, _info) do
+    {:ok, %Languages.GroupsUser{is_banned: false, is_admin: false, is_pending: false}}
   end
 end

@@ -2,7 +2,7 @@ defmodule ZheshmowenWeb.Context do
   @behaviour Plug
 
   import Plug.Conn
-  # alias Zheshmowen.Accounts.Guardian
+  alias Zheshmowen.Accounts
 
   def init(opts), do: opts
 
@@ -27,13 +27,17 @@ defmodule ZheshmowenWeb.Context do
   Return the current user context based on the authorization header
   """
   def build_context(conn) do
-    user = get_session(conn, :current_user)
-
-    case user do
-      nil -> {:ok, %{}}
-      _ -> {:ok, %{current_user: user}}
-    end
+    conn
+    |> get_session(:current_user)
+    |> get_user_from_session
   end
+
+  def get_user_from_session(user_id) when is_integer(user_id) do
+    user = Accounts.get_user(user_id)
+    {:ok, %{current_user: user}}
+  end
+
+  def get_user_from_session(_), do: {:ok, %{}}
 
   # def build_context(conn) do
   #   with ["Bearer " <> token] <- get_req_header(conn, "authorization"),

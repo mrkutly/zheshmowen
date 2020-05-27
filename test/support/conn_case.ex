@@ -32,7 +32,7 @@ defmodule ZheshmowenWeb.ConnCase do
       def atomize_response(resp), do: Atomizer.atomize(resp)
 
       def post_query(conn, query) do
-        post(conn, "/api", %{"query" => query})
+        post(conn, "/graphql", %{"query" => query})
       end
 
       def post_query(conn, query, variables) do
@@ -41,7 +41,7 @@ defmodule ZheshmowenWeb.ConnCase do
           "variables" => variables
         }
 
-        post(conn, "/api", args)
+        post(conn, "/graphql", args)
       end
 
       def session_conn() do

@@ -121,11 +121,15 @@ defmodule Zheshmowen.Languages do
   @doc """
   Gets a user's membership status for a group
   """
-  def get_user_status(user_id, group_id) do
+  def get_user_status(%User{id: user_id}, group_id) do
     case Repo.get_by(GroupsUser, user_id: user_id, group_id: group_id) do
       nil -> %GroupsUser{is_banned: false, is_admin: false, is_pending: false}
       status -> status
     end
+  end
+
+  def get_user_status(_user, _group_id) do
+    %GroupsUser{is_banned: false, is_admin: false, is_pending: false}
   end
 
   @doc """

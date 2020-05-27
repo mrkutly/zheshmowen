@@ -36,7 +36,25 @@ config :ueberauth, Ueberauth,
   ]
 
 # Configures Ueberauth's Auth0 auth provider
+auth0_domain =
+  System.get_env("AUTH0_DOMAIN") ||
+    raise """
+    environment variable AUTH0_DOMAIN is missing.
+    """
+
+auth0_client_id =
+  System.get_env("AUTH0_CLIENT_ID") ||
+    raise("""
+    environment variable AUTH0_CLIENT_ID is missing.
+    """)
+
+auth0_client_secret =
+  System.get_env("AUTH0_CLIENT_SECRET") ||
+    raise("""
+    environment variable AUTH0_CLIENT_SECRET is missing.
+    """)
+
 config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
-  domain: System.get_env("AUTH0_DOMAIN"),
-  client_id: System.get_env("AUTH0_CLIENT_ID"),
-  client_secret: System.get_env("AUTH0_CLIENT_SECRET")
+  domain: auth0_domain,
+  client_id: auth0_client_id,
+  client_secret: auth0_client_secret

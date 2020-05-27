@@ -61,8 +61,21 @@ defmodule Zheshmowen.Accounts do
       %Zheshmowen.Accounts.User{}
 
   """
-  def get_user(id) do
+  def get_user!(id) do
     Repo.get!(User, id)
+  end
+
+  @doc """
+  Gets a user by their id
+
+  ## Example
+
+      iex> get_user(1)
+      {:ok, %Zheshmowen.Accounts.User{}}
+
+  """
+  def get_user(id) do
+    Repo.get(User, id)
   end
 
   @doc """

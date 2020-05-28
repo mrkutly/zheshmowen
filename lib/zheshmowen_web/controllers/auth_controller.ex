@@ -7,12 +7,11 @@ defmodule ZheshmowenWeb.AuthController do
   def logout(conn, _params) do
     conn
     |> configure_session(drop: true)
-    |> redirect(external: System.get_env("FRONTEND_URL") <> "/login")
+    |> redirect(external: System.get_env("FRONTEND_URL"))
   end
 
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
-    conn
-    |> redirect(external: System.get_env("FRONTEND_URL") <> "/login")
+    redirect(conn, external: System.get_env("FRONTEND_URL"))
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
@@ -23,8 +22,7 @@ defmodule ZheshmowenWeb.AuthController do
         |> redirect(external: System.get_env("FRONTEND_URL"))
 
       {:error, _} ->
-        conn
-        |> redirect(external: System.get_env("FRONTEND_URL") <> "/login")
+        redirect(conn, external: System.get_env("FRONTEND_URL"))
     end
   end
 end

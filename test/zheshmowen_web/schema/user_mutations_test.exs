@@ -3,9 +3,11 @@ defmodule ZheshmowenWeb.UserMutationsTest do
   alias Zheshmowen.{Accounts, Languages, Languages.Group}
 
   @join_group_mutation """
-  mutation JoinGroup($id: ID, $is_admin: Boolean) {
-    joinGroup(group: {id: $id, is_admin: $is_admin}) {
+  mutation JoinGroup($id: ID) {
+    joinGroup(group_id: $id) {
       isAdmin
+      isBanned
+      isPending
       group {
         name
         id
@@ -14,7 +16,7 @@ defmodule ZheshmowenWeb.UserMutationsTest do
   }
   """
 
-  test "mutation: join_group", _params do
+  test "mutation: join_group" do
     {:ok, user} =
       Accounts.create_user(%{
         email: "jenkins@test.com",
@@ -26,14 +28,20 @@ defmodule ZheshmowenWeb.UserMutationsTest do
       session_conn()
       |> put_session(:current_user, user.id)
       |> post_query(@join_group_mutation, %{
-        "id" => 1,
-        "is_admin" => false
+        "id" => 1
       })
       |> json_response(200)
       |> atomize_response()
 
     assert result == %{
-             data: %{joinGroup: %{group: %{id: "1", name: "Bodéwadmimwen"}, isAdmin: false}}
+             data: %{
+               joinGroup: %{
+                 group: %{id: "1", name: "Bodéwadmimwen"},
+                 isAdmin: false,
+                 isBanned: false,
+                 isPending: true
+               }
+             }
            }
 
     user_id = user.id

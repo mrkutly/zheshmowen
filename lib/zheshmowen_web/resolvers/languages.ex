@@ -21,10 +21,10 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
     Languages.create_group(args)
   end
 
-  def join_group(_parent, %{group: %{id: group_id, is_admin: is_admin}}, %{
+  def join_group(_parent, %{group_id: group_id}, %{
         context: %{current_user: user}
       }) do
-    Languages.add_user_to_group(%{user_id: user.id, group_id: group_id, is_admin: is_admin})
+    Languages.add_user_to_group(%{user_id: user.id, group_id: group_id})
   end
 
   def join_group(_parent, _args, %{context: %{}}) do
@@ -59,7 +59,5 @@ defmodule ZheshmowenWeb.Resolvers.Languages do
     {:ok, Languages.get_user_status(user, group_id)}
   end
 
-  def get_current_user_status(_parent, _args, _info) do
-    {:ok, %Languages.GroupsUser{is_banned: false, is_admin: false, is_pending: false}}
-  end
+  def get_current_user_status(_parent, _args, _info), do: {:ok, nil}
 end

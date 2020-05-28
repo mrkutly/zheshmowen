@@ -6,11 +6,6 @@ defmodule ZheshmowenWeb.Schema.Types do
 
   import_types(Absinthe.Type.Custom, only: [:naive_datetime])
 
-  input_object :join_group_input do
-    field :id, non_null(:id)
-    field :is_admin, :boolean
-  end
-
   object :comment do
     field :body, :string
     field :id, :id

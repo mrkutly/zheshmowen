@@ -1,10 +1,7 @@
 defmodule ZheshmowenWeb.Resolvers.Accounts do
   alias Zheshmowen.Accounts
 
-  def me(_parent, _args, %{context: %{current_user: user}}) do
-    {:ok, user}
-  end
-
+  def me(_parent, _args, %{context: %{current_user: user}}), do: {:ok, user}
   def me(_parent, _args, _info), do: {:ok, nil}
 
   def user_where(_parent, %{email: email}, _info) do

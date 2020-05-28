@@ -18,9 +18,9 @@ defmodule ZheshmowenWeb.Router do
   scope "/auth" do
     pipe_through :auth
 
+    get "/logout", AuthController, :logout
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
-    get "/logout", AuthController, :logout
   end
 
   scope "/graphql" do

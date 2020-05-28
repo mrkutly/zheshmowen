@@ -1,6 +1,6 @@
 defmodule ZheshmowenWeb.GroupMutationsTest do
   use ZheshmowenWeb.ConnCase
-  alias Zheshmowen.Languages
+  alias Zheshmowen.{Languages, Accounts}
 
   @create_group_mutation """
   mutation createGroup($name: String!) {
@@ -11,9 +11,17 @@ defmodule ZheshmowenWeb.GroupMutationsTest do
   }
   """
 
-  test "mutation: create_group", %{conn: conn} do
+  test "mutation: create_group" do
+    {:ok, user} =
+      Accounts.create_user(%{
+        email: "dorby@test.com",
+        name: "dorby",
+        password: "terrible_password1"
+      })
+
     result =
-      conn
+      session_conn()
+      |> put_session(:current_user, user.id)
       |> post_query(@create_group_mutation, %{"name" => "Anishinaabemowin"})
       |> json_response(200)
       |> atomize_response()

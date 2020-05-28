@@ -4,6 +4,7 @@ defmodule ZheshmowenWeb.Schema do
 
   alias ZheshmowenWeb.Resolvers
   alias Zheshmowen.{Accounts, Languages}
+  alias ZheshmowenWeb.Middleware.RequireAuth
 
   def context(ctx) do
     loader =
@@ -62,6 +63,8 @@ defmodule ZheshmowenWeb.Schema do
     field :add_comment, :comment do
       arg(:post_id, non_null(:id))
       arg(:body, non_null(:string))
+
+      middleware(RequireAuth)
       resolve(&Resolvers.Languages.add_comment/3)
     end
 
@@ -69,18 +72,24 @@ defmodule ZheshmowenWeb.Schema do
     field :add_post, :post do
       arg(:group_id, non_null(:id))
       arg(:body, non_null(:string))
+
+      middleware(RequireAuth)
       resolve(&Resolvers.Languages.add_post/3)
     end
 
     @desc "Creates a group"
     field :create_group, :group do
       arg(:name, non_null(:string))
+
+      middleware(RequireAuth)
       resolve(&Resolvers.Languages.create_group/3)
     end
 
-    @desc "Adds the current user to a group"
+    @desc "Adds user to group (pending admin approval)"
     field :join_group, :user_group do
-      arg(:group, non_null(:join_group_input))
+      arg(:group_id, non_null(:id))
+
+      middleware(RequireAuth)
       resolve(&Resolvers.Languages.join_group/3)
     end
   end
